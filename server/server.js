@@ -27,7 +27,9 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 app.use('/api/users', userRoutes);
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, '..', 'build'), {
+const buildPath = path.join(__dirname, '..', 'build');
+console.log('Serving static files from:', buildPath); // Debugging line
+app.use(express.static(buildPath, {
   setHeaders: function (res, path) {
     if (path.endsWith('.css')) {
       res.setHeader('Content-Type', 'text/css');
@@ -37,10 +39,11 @@ app.use(express.static(path.join(__dirname, '..', 'build'), {
 
 // The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+  const indexPath = path.join(buildPath, 'index.html');
+  console.log('Sending index.html from:', indexPath); // Debugging line
+  res.sendFile(indexPath);
 });
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
