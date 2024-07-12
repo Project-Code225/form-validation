@@ -1,4 +1,3 @@
-// src/components/LoginForm.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import styles from '../components/RegistrationForm.module.css';
@@ -11,12 +10,12 @@ const LoginForm = ({ onLoginSuccess, onSwitchToRegister }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://form-testing.onrender.com/api/users/login', {
+      const response = await axios.post('https://form-testing.onrender.com/api/users/login', {
         username,
         password,
       });
       setMessage(response.data.message);
-      onLoginSuccess(response.data.username);  // Use the username from the response
+      onLoginSuccess(response.data.username); // Use the username from the response
     } catch (error) {
       setMessage(error.response?.data?.message || 'An error occurred');
     }
