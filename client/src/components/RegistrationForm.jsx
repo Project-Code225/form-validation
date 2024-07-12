@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from '../components/RegistrationForm.module.css';
@@ -38,15 +39,23 @@ const RegistrationForm = ({ onRegistrationSuccess, onSwitchToLogin }) => {
       return;
     }
     try {
-      const response = await axios.post('http://form-testing.onrender.com/api/users/register', {
+      const response = await axios.post('https://form-testing.onrender.com/api/users/register', {
         username,
         email,
         password,
       });
-      setMessage(response.data.message);
-      onRegistrationSuccess(username);
+      if (response && response.data) {
+        setMessage(response.data.message);
+        onRegistrationSuccess(username);
+      } else {
+        setMessage('Registration failed');
+      }
     } catch (error) {
-      setMessage(error.response.data.error);
+      if (error.response && error.response.data) {
+        setMessage(error.response.data.error);
+      } else {
+        setMessage('An error occurred');
+      }
     }
   };
 
